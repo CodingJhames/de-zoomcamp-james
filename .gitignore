@@ -1,0 +1,16 @@
+
+# Archivos locales de configuración de Terraform
+.terraform/
+.terraform.lock.hcl
+
+# Archivos de estado (contienen información sensible de tu infraestructura)
+*.tfstate
+*.tfstate.backup
+
+# Archivos de variables sensibles (si llegaras a crear alguno)
+*.tfvars
+*.tfvars.json
+
+# Archivos de sistema y logs
+.DS_Store
+terraform.log

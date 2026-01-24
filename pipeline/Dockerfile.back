@@ -1,0 +1,29 @@
+
+# 1. Imagen base de Python
+FROM python:3.11-slim
+
+# 2. Copiamos la herramienta 'uv' desde su imagen oficial (truco de eficiencia)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
+
+# 3. Directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# 4. Agregamos el entorno virtual al PATH para que Docker encuentre las librerías
+ENV PATH="/app/.venv/bin:$PATH"
+
+# 5. Copiamos archivos de configuración (para aprovechar el "cache" de Docker)
+COPY "pyproject.toml" "uv.lock" ".python-version" ./
+
+# 6. Instalamos las dependencias (pandas, pyarrow) dentro de la imagen
+RUN uv sync --locked
+
+# 7. Copiamos nuestro script
+COPY pipeline.py pipeline.py
+
+# 8. Comando que se ejecuta al iniciar
+ENTRYPOINT ["python", "pipeline.py"]
+
+
+# RUN pip install pandas
+
+# ENTRYPOINT [ "bash" ]
