@@ -1,44 +1,45 @@
-
-# Archivos locales de configuración de Terraform
+# --- Infrastructure (Terraform) ---
 .terraform/
-.terraform.lock.hcl
-
-# Archivos de estado (contienen información sensible de tu infraestructura)
 *.tfstate
 *.tfstate.backup
-
-# Archivos de variables sensibles (si llegaras a crear alguno)
 *.tfvars
 *.tfvars.json
+.terraform.lock.hcl
 
-# Archivos de sistema y logs
-.DS_Store
-terraform.log
-
-# --- Kestra & Docker (Semana 2) ---
-
-# Datos de la base de datos de Kestra (PostgreSQL)
-# Esto evita que se suban gigabytes de datos locales a GitHub
+# --- Orchestration and Docker (Kestra) ---
 postgres_data/
-
-# Almacenamiento local de Kestra (archivos temporales y descargas)
 kestra_storage/
-
-# Logs de Docker
-*.log
-
-# Archivos de entorno (donde podrías guardar llaves de AWS en el futuro)
+ny_taxi_postgres_data/
+02-workflow-orchestration/kestra-wd/
 .env
 
-# Kestra y Bases de datos
-02-workflow-orchestration/kestra-wd/
-ny_taxi_postgres_data/
+# --- DBT (Week 4 - What's New) ---
+# Ignore logs and build folders
+logs/
+target/
+dbt_packages/
+dbt_modules/
 
-# Python y entornos
-pipeline/.venv/
-pipeline/.ipynb_checkpoints/
+# Ignore dbt state files (if you use local dbt Core)
+state/
+
+# --- Python and Jupyter ---
 __pycache__/
+.ipynb_checkpoints/
+.venv/
+env/
+venv/
+*.pyc
 
-# Archivos de datos grandes
+# --- Data Files (Vital for not breaking GitHub) ---
 *.parquet
 *.csv
+*.jsonl
+*.gz
+*.zip
+
+# --- System and Logs ---
+.DS_Store
+*.log
+Thumbs.db
+
