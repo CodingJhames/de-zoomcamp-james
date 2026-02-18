@@ -58,7 +58,7 @@ services:
     volumes:
       - kestra_data:/app/storage
       - /var/run/docker.sock:/var/run/docker.sock
-      - /tmp/kestra-wd:/tmp/kestra-wd
+      - ./kestra-wd:/tmp/kestra-wd
     environment:
       KESTRA_CONFIGURATION: |
         datasources:
@@ -77,7 +77,7 @@ services:
           storage:
             type: local
             local:
-              basePath: "/app/storage"
+              basePath: "/tmp/kestra-wd/storage"
           queue:
             type: postgres
           tasks:

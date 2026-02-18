@@ -1,21 +1,45 @@
+# Data Engineering Zoomcamp - AWS Edition 🚀
 
-## Adapting GCP to AWS
-Due to issues with the Google Cloud Platform (GCP), I have completed the task using **Amazon Web Services (AWS)** as the cloud provider.
+This repository documents my journey through the **Data Engineering Zoomcamp**. Due to technical constraints with GCP, I pivoted the entire infrastructure to **Amazon Web Services (AWS)**, demonstrating adaptability and a deep understanding of cloud-agnostic engineering principles.
 
-### Equivalents used:
-* **GCS Bucket** (Google Cloud Storage) -> **AWS S3 Bucket** (Simple Storage Service).
-* **Region**: `us-east-1` (Virginia).
+---
 
-## Prerequisites
-* [Terraform](https://www.terraform.io/) v1.14.3 or higher.
-* [AWS CLI](https://aws.amazon.com/cli/) configured with Administrator permissions.
+### 🛠️ Project Evolution & Milestones
 
-## Project Structure
-* `main.tf`: Defines the AWS provider and the S3 Bucket resource that will act as the Data Lake.
-* `variables.tf`: Contains the variables to parameterize the bucket name and region, avoiding hard-coded values in the main code.
-* `.gitignore`: Configured to exclude Terraform state files and temporary folders.
+#### Phase 1: Infrastructure as Code (Terraform)
+Instead of manual configuration, I built the foundation using **Terraform** to ensure a reproducible environment:
+* **Storage:** Provisioned **AWS S3** as the primary Data Lake (replacing GCS).
+* **Automation:** Utilized `variables.tf` and `main.tf` to manage regional settings (`us-east-1`) and bucket policies without hardcoding values.
 
-## Instructions for use
-1. Initialize Terraform:
-```bash
-  terraform init
+#### Phase 2: Batch Processing (Spark + EC2) — *Week 5*
+I successfully processed large-scale NYC Taxi datasets while overcoming significant hardware constraints:
+* **Compute:** Configured an **EC2 (Ubuntu 24.04 LTS)** instance.
+* **Resource Optimization (The Swap Trick):** Since the `t3.micro` instance is limited to 1GB of RAM, I manually implemented **4GB of Swap Memory**. This "virtual RAM" allowed Spark to process heavy Parquet files without system crashes—proving that engineering logic can overcome hardware limitations.
+* **Technical Stack:** Installed and tuned OpenJDK 11, PySpark 3.3.2, and Python 3.12 within a hardened Linux environment.
+
+
+
+#### Phase 3: Orchestration & Data Quality (Bruin)
+Integrated modern orchestration logic to manage data pipelines:
+* **Materialization:** Applied incremental strategies (`time_interval`) to optimize processing costs.
+* **Data Integrity:** Implemented **Quality Checks** (`not_null`) to ensure the reliability of the staging layer.
+* **Lineage:** Utilized dependency graphs to visualize asset relationships.
+
+---
+
+### 📂 Repository Structure
+* `/terraform`: Infrastructure configuration files (.tf).
+* `solucion.py`: PySpark processing script for Week 5.
+* `.gitignore`: Configured to protect sensitive files like AWS `.pem` keys and Terraform state.
+
+---
+
+### 🚀 How to Run
+1. **Infrastructure:** Run `terraform init` followed by `terraform apply` to provision the S3 Data Lake.
+2. **Server Setup:** Use the provided bash commands to configure Java and the **4GB Swapfile** on EC2.
+3. **Data Processing:** Execute the Spark jobs using `python3 solucion.py`.
+
+---
+
+> **Engineering Philosophy:**
+> I pivoted to AWS out of **practicality and resilience**. A data engineer’s value isn't tied to a specific vendor (Google or Amazon), but to the ability to build reliable bridges regardless of the terrain. Logic is universal; tools are temporary.
